@@ -24,22 +24,18 @@ class enigma_m4:
         self.plugboard1 = m4rotors.plugboard(plug_list)
 
     def select_rotor1(self, rotor_pos1):
-        self.reset_rotation()
         self.sel_rotor1 = self.rotor_dict[rotor_pos1]
         self.reset_rotation()
 
     def select_rotor2(self, rotor_pos2):
-        self.reset_rotation()
         self.sel_rotor2 = self.rotor_dict[rotor_pos2]
         self.reset_rotation()
 
     def select_rotor3(self, rotor_pos3):
-        self.reset_rotation()
         self.sel_rotor3 = self.rotor_dict[rotor_pos3]
         self.reset_rotation()
 
     def select_rotor_greek(self, rotor_pos_greek):
-        self.reset_rotation()
         self.sel_rotor_greek = self.rotor_dict[rotor_pos_greek]
         self.reset_rotation()
 
@@ -110,6 +106,6 @@ class enigma_m4:
         if val > 25:
             return val%26
         elif val < 0:
-            return 26-(val*-1)
+            return (26-(val*-1))%26
         else:
             return val
