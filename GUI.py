@@ -307,21 +307,18 @@ def keyStroke(key):
     else:
         enigma_m4.signal(key)
         output()
-        ringPos1 = int((pos1Ring.get()))
         turnoverRotationPos1 = (pos1Turnover.get())
-        turnoverRotPos1Num = alphabetList.index(turnoverRotationPos1.upper()) + ringPos1
+        turnoverRotPos1Num = alphabetList.index(turnoverRotationPos1.upper()) + 1
         if turnoverRotPos1Num >= 26:
             add = turnoverRotPos1Num - 26
             turnoverRotPos1Num = 0 + add
-            ringPos2 = int((pos2Ring.get()))
             turnoverRotationPos2 = (pos2Turnover.get())
-            turnoverRotPos2Num = alphabetList.index(turnoverRotationPos2.upper()) + ringPos2
+            turnoverRotPos2Num = alphabetList.index(turnoverRotationPos2.upper()) + 1
             if turnoverRotPos2Num >= 26:
                 add = turnoverRotPos2Num - 26
                 turnoverRotPos2Num = 0 + add
-                ringPos3 = int((pos3Ring.get()))
                 turnoverRotationPos3 = (pos3Turnover.get())
-                turnoverRotPos3Num = alphabetList.index(turnoverRotationPos3.upper()) + ringPos3
+                turnoverRotPos3Num = alphabetList.index(turnoverRotationPos3.upper()) + 1
                 if turnoverRotPos3Num >= 26:
                     add = turnoverRotPos3Num - 26
                     turnoverRotPos3Num = 0 + add
@@ -500,8 +497,8 @@ rotor_choice3.menu.add_radiobutton(label='Choose rotor', state=DISABLED)
 ZW.grid(row=0, column=3)
 ZW.menu = Menu(ZW, tearoff = 0)
 ZW['menu'] = ZW.menu
-ZW.menu.add_command(label='Gamma', command=lambda: zwChoice(1), state=ACTIVE)
 ZW.menu.add_command(label='Beta', command=lambda: zwChoice(2), state=ACTIVE)
+ZW.menu.add_command(label='Gamma', command=lambda: zwChoice(1), state=ACTIVE)
 ZW.menu.add_separator()
 ZW.menu.add_radiobutton(label='Choose rotor', state=DISABLED)
 
