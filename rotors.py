@@ -27,33 +27,21 @@ class rotors:
 
         def rotor_rotation(self, man_rotation = 0, ring_setting = 0, order = 0, amount = 0, previous_rotor = 0):
             self.neighbour = 0
+            global test
             if order == 1 and (man_rotation + amount)%26 == (self.notch1 + 1)%26:
+                test = 0
                 self.neighbour = 1
-                if (man_rotation + amount - ring_setting)%26 >= 0:
-                    self.rotation = man_rotation + amount - ring_setting
-                else:
-                    self.rotation = 26 - ((man_rotation + amount - ring_setting*-1)%26)
+                self.rotation = man_rotation + amount - ring_setting
             elif order == 1:
-                if (man_rotation + amount - ring_setting)%26 >= 0:
-                    self.rotation = man_rotation + amount - ring_setting
-                else:
-                    self.rotation = 26 - ((man_rotation + amount - ring_setting*-1)%26)
-            elif order == 2 and (man_rotation + previous_rotor)%26 == (self.notch1 + 1)%26:
+                self.rotation = man_rotation + amount - ring_setting
+            elif order == 2 and (man_rotation + previous_rotor)%26 == (self.notch1 + 1)%26 and test == 0:
                 self.neighbour = 1
-                if (man_rotation + previous_rotor - ring_setting)%26 >= 0:
-                    self.rotation = man_rotation + previous_rotor - ring_setting
-                else:
-                    self.rotation = 26 - ((man_rotation + previous_rotor - ring_setting*-1)%26)
+                test = 1
+                self.rotation = man_rotation + previous_rotor - ring_setting
             elif order == 2:
-                if (man_rotation + previous_rotor - ring_setting)%26 >= 0:
-                    self.rotation = man_rotation + previous_rotor - ring_setting
-                else:
-                    self.rotation = 26 - ((man_rotation + previous_rotor - ring_setting*-1)%26)
+                self.rotation = man_rotation + previous_rotor - ring_setting
             else:
-                if (man_rotation + previous_rotor - ring_setting)%26 >= 0:
                     self.rotation = man_rotation + previous_rotor - ring_setting
-                else:
-                    self.rotation = 26 - ((man_rotation + previous_rotor - ring_setting*-1)%26)
 
     class m4:
         def __init__(self, c, r, p):
@@ -67,33 +55,21 @@ class rotors:
 
         def rotor_rotation(self, man_rotation = 0, ring_setting = 0, order = 0, amount = 0, previous_rotor = 0):
             self.neighbour = 0
+            global test2
             if order == 1 and (man_rotation + amount)%26 == (self.notch1 + 1)%26 or (man_rotation + amount)%26 == (self.notch2 + 1)%26:
+                test2 = 0
                 self.neighbour = 1
-                if (man_rotation + amount - ring_setting)%26 >= 0:
-                    self.rotation = man_rotation + amount - ring_setting
-                else:
-                    self.rotation = 26 - (((man_rotation + amount - ring_setting)*-1)%26)
+                self.rotation = man_rotation + amount - ring_setting
             elif order == 1:
-                if (man_rotation + amount - ring_setting)%26 >= 0:
-                    self.rotation = man_rotation + amount - ring_setting
-                else:
-                    self.rotation = 26 - (((man_rotation + amount - ring_setting)*-1)%26)
-            elif order == 2 and (man_rotation + previous_rotor)%26 == (self.notch1 + 1)%26 or (man_rotation + previous_rotor)%26 == (self.notch2 + 1)%26:
+                self.rotation = man_rotation + amount - ring_setting
+            elif order == 2 and (man_rotation + previous_rotor)%26 == (self.notch1 + 1)%26 or (man_rotation + previous_rotor)%26 == (self.notch2 + 1)%26 and test2 == 0:
                 self.neighbour = 1
-                if (man_rotation + previous_rotor - ring_setting)%26 >= 0:
-                    self.rotation = man_rotation + previous_rotor - ring_setting
-                else:
-                    self.rotation = 26 - (((man_rotation + previous_rotor - ring_setting)*-1)%26)
+                self.rotation = man_rotation + previous_rotor - ring_setting
+                test2 = 1
             elif order == 2:
-                if (man_rotation + previous_rotor - ring_setting)%26 >= 0:
-                    self.rotation = man_rotation + previous_rotor - ring_setting
-                else:
-                    self.rotation = 26 - (((man_rotation + previous_rotor - ring_setting)*-1)%26)
+                self.rotation = man_rotation + previous_rotor - ring_setting
             else:
-                if (man_rotation + previous_rotor - ring_setting)%26 >= 0:
-                    self.rotation = man_rotation + previous_rotor - ring_setting
-                else:
-                    self.rotation = 26 - (((man_rotation + previous_rotor - ring_setting)*-1)%26)
+                self.rotation = man_rotation + previous_rotor - ring_setting
 
     class greek:
         def __init__(self, c):
