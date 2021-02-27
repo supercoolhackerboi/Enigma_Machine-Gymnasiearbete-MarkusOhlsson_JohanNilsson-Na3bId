@@ -1,6 +1,8 @@
 from tkinter import *
 from enigma import enigma_m4
-from rotors import rotors as m4rotors
+from rotorsTest import rotors as m4rotors
+import time
+#import threading
 
 '''frontend'''
 
@@ -63,6 +65,10 @@ prevOutput = 0
 turnoverRotationPos1 = 0
 turnoverRotationPos2 = 0
 turnoverRotationPos3 = 0
+
+#t1 = threading.Thread()
+#t2 = threading.Thread()
+#t3 = threading.Thread()
 
 # Defining tkinter variables
 rotorMenuText1 = StringVar()
@@ -211,7 +217,7 @@ def ukwChoice(ukwNum):
         ukwTEST = 1
         ukw = 'rUKWc'
         enigma_m4.select_rotor_reflector(ukw)
-    
+        
 
 # Turnover
 def pos1TurnoverGet():
@@ -305,51 +311,67 @@ def keyStroke(key):
     if r1TEST == 0 or r2TEST == 0 or r3TEST == 0 or zwTEST == 0 or ukwTEST == 0:
         print('All rotors must be selected')
     else:
+        #t2.start()
         enigma_m4.signal(key)
         output()
-        turnoverRotationPos1 = (pos1Turnover.get())
-        turnoverRotPos1Num = alphabetList.index(turnoverRotationPos1.upper()) + 1
-        if turnoverRotPos1Num >= 26:
-            add = turnoverRotPos1Num - 26
-            turnoverRotPos1Num = 0 + add
-            turnoverRotationPos2 = (pos2Turnover.get())
-            turnoverRotPos2Num = alphabetList.index(turnoverRotationPos2.upper()) + 1
-            if turnoverRotPos2Num >= 26:
-                add = turnoverRotPos2Num - 26
-                turnoverRotPos2Num = 0 + add
-                turnoverRotationPos3 = (pos3Turnover.get())
-                turnoverRotPos3Num = alphabetList.index(turnoverRotationPos3.upper()) + 1
-                if turnoverRotPos3Num >= 26:
-                    add = turnoverRotPos3Num - 26
-                    turnoverRotPos3Num = 0 + add
-                turnoverRotationPos3 = alphabetList[turnoverRotPos3Num]
-                pos3Turnover.delete(0, END)
-                pos3Turnover.insert(0, turnoverRotationPos3)
-            turnoverRotationPos2 = alphabetList[turnoverRotPos2Num]
-            pos2Turnover.delete(0, END)
-            pos2Turnover.insert(0, turnoverRotationPos2)
-        turnoverRotationPos1 = alphabetList[turnoverRotPos1Num]
+        
+        turnoverRotationPos1 = alphabetList[(enigma_m4.pos1_rotations + enigma_m4.man_rotation1) % 26]
         pos1Turnover.delete(0, END)
         pos1Turnover.insert(0, turnoverRotationPos1)
-        
+
+        turnoverRotationPos2 = alphabetList[(enigma_m4.neighbour_rot1 + enigma_m4.man_rotation2) % 26]
+        pos2Turnover.delete(0, END)
+        pos2Turnover.insert(0, turnoverRotationPos2)
+
+        turnoverRotationPos3 = alphabetList[(enigma_m4.neighbour_rot2 + enigma_m4.man_rotation3) % 26]
+        pos3Turnover.delete(0, END)
+        pos3Turnover.insert(0, turnoverRotationPos3)
+        #t2._stop()
+
 
 
 # Output function
 def output():
+    #t3.start()
     global prevOutput
     outputList = [outputLabelA, outputLabelB, outputLabelC, outputLabelD, outputLabelE, outputLabelF, outputLabelG, outputLabelH, outputLabelI, outputLabelJ, outputLabelK, outputLabelL, outputLabelM, outputLabelN, outputLabelO, outputLabelP, outputLabelQ, outputLabelR, outputLabelS, outputLabelT, outputLabelU, outputLabelV, outputLabelW, outputLabelX, outputLabelY, outputLabelZ]
     outputShow = outputList[prevOutput]
     outputShow['bg'] = 'green'
     outputShow = outputList[enigma_m4.encrypted_signal]
+    print(alphabetList[enigma_m4.encrypted_signal])
     outputShow['bg'] = 'yellow'
     prevOutput = enigma_m4.encrypted_signal
+    #t3._stop()
+
+# Test function
+def test():
+    run = True
+    x = 0
+    #t1.start()
+    while run:
+        time.sleep(0.1)
+        x += 1
+        keyStroke(0)
+        turnoverRotationPos1 = alphabetList[(enigma_m4.pos1_rotations + enigma_m4.man_rotation1) % 26]
+        pos1Turnover.delete(0, END)
+        pos1Turnover.insert(0, turnoverRotationPos1)
+
+        turnoverRotationPos2 = alphabetList[(enigma_m4.neighbour_rot1 + enigma_m4.man_rotation2) % 26]
+        pos2Turnover.delete(0, END)
+        pos2Turnover.insert(0, turnoverRotationPos2)
+
+        turnoverRotationPos3 = alphabetList[(enigma_m4.neighbour_rot2 + enigma_m4.man_rotation3) % 26]
+        pos3Turnover.delete(0, END)
+        pos3Turnover.insert(0, turnoverRotationPos3)
+        if x == 100000:
+            run = False
 
 
 
 # Defining the miscellaneous buttons
 
 quitButton = Button(root, text='Quit', padx=33, pady=5, command=root.quit)
-testButton = Button(root, text='Test', padx=33, pady=5, command=output)
+testButton = Button(root, text='Test \n RÖR EJ', padx=25, pady=5, command=test)
 
 # Defining rotor buttons
 
@@ -410,7 +432,7 @@ buttonZ = Button(root, text='Z', bg='green', padx=41, pady=34, command=lambda: k
 
 # Defining output
 
-outputSeparator = Label(root, text='Output', bg='green', padx=128, pady=15)
+outputSeparator = Label(root, text='Output', bg='green', padx=128, pady=15, relief=RAISED)
 
 outputLabelA = Label(root, text='A', bg='green', padx=41, pady=34, relief=RAISED)
 outputLabelB = Label(root, text='B', bg='green', padx=41, pady=34, relief=RAISED)
@@ -442,7 +464,7 @@ outputLabelZ = Label(root, text='Z', bg='green', padx=41, pady=34, relief=RAISED
 
 # Placing the misc. buttons on the screen
 # Row 0
-
+testButton.grid(row=0, column=9, rowspan=3)
 quitButton.grid(row=0, column=0, rowspan=3)
 #testButton.grid(row=0, column=1, rowspan=3)
 
@@ -594,13 +616,13 @@ outputLabelK.grid(row=8, column=7)
 outputLabelL.grid(row=8, column=8)
 
 # Row 9
-outputLabelZ.grid(row=9, column=0)
-outputLabelX.grid(row=9, column=1)
-outputLabelC.grid(row=9, column=2)
-outputLabelV.grid(row=9, column=3)
-outputLabelB.grid(row=9, column=4)
-outputLabelN.grid(row=9, column=5)
-outputLabelM.grid(row=9, column=6)
+outputLabelZ.grid(row=9, column=1)
+outputLabelX.grid(row=9, column=2)
+outputLabelC.grid(row=9, column=3)
+outputLabelV.grid(row=9, column=4)
+outputLabelB.grid(row=9, column=5)
+outputLabelN.grid(row=9, column=6)
+outputLabelM.grid(row=9, column=7)
 
 
 # Plugboard
