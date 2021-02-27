@@ -106,6 +106,6 @@ class enigma_m4:
         if val > 25:
             return val%26
         elif val < 0:
-            return (26-(val*-1))%26
+            return (26-(val*-1)) % 26
         else:
             return val
